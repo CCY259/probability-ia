@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Probability</title>
+  <style type="text/css">body{
+    margin:40px auto;
+    max-width:800px;
+    line-height:1.7;
+    font-family: Verdana,Arial,sans-serif;
+    font-size:16px;
+    color:#313030;
+    padding:0 10px}
+    h1,h2,h3{line-height:1.2}
+    a {
+      color:#212121;
+    }
+    .ui-tabs .ui-tabs-panel[aria-hidden="true"] {
+    display: block !important;
+    position: absolute !important;
+    left: -9999px !important;
+    }
+    .bottom-footer {
+    padding: 20px;
+    text-align: right;
+    }
+    pre {
+    background-color: #F5F5F5; 
+    padding: 10px;
+    border-radius: 6px;         
+    overflow: visible;    
+    }
+    code {
+      background-color: #F5F5F5; 
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+ 
+
+
+
+ </head>
+
+
+ <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+
+ <body>
+
+ <h1>Probability</h1>
+ <h2>Reading Group in ISM</h2>
+
+ <h3>Purpose</h3>
+ <p> We are trying to learn probability in mathematically rigorous way at the appropriate level. 
+  We will read the note and attempt the problems 
+  in the example sheets <a href="https://www.statslab.cam.ac.uk/~rrw1/prob/index.html" TARGET='_blank'>here</a>. </p>
+
+
+
+ <p>
+   Time and Venue: Tuesday 5.00-7.30pm at BTM 3
+ </p>
+
+ <hr>
+
+ <h3>
+  Resources
+ </h3>
+ <p>The materials discussed in class will be uploaded here for your reference. 
+  Please note that the solutions may well contain errors.</p>
+
+  <h4>Example Sheet 1</h4>
+  <ul>
+    <li><a href="./pdf/ES1_P2.pdf" TARGET='_blank'> Problem 2</a></li>
+    We apply double counting to the number of matches in the kth round throughout all tournaments. By fixing a player A, I suspect we can find another double counting argument (counting players?) but I haven't figured it out yet. You may give it a try.
+    <li><a href="./pdf/ES1_P3_P4.pdf" TARGET='_blank'> Problem 3 and Problem 4</a></li>
+    Just apply Stirling's formula.
+    <li><a href="./pdf/ES1_P12.pdf" TARGET='_blank'> Problem 12</a></li>
+    It is easier to calculate conditional probability if we construct tree diagram.
+    <li><a href="./pdf/ES1_P13.pdf" TARGET='_blank'> Problem 13</a></li>
+    Discussed three different approaches for Problem 13. Each approach is totally different (case analysis on the last coin, directly compute the sum via induction, use bijection).
+    <li><a href="./pdf/ES1_P16.pdf" TARGET='_blank'> Problem 16</a></li>
+    If we use the weak form of Stirling ($\log n! \sim n \log n$), we dont need to worry about the $1/2$ part. If we use the strong form, then we have to argue that the $1/2$ part is negligible. 
+
+    Since we are focusing on asymptotic behavior, I think it should be fine, even though it is still not entirely convincing haha.
+  </ul>
+  <h4>Simulations of some problems using R</h4>
+  <ul>
+    <li><a href="./page/simulation.html" TARGET='_blank'> Example Sheet 1</a></li>
+  </ul>
+
+ 
+ 
+
+<hr>
+
+
+
+
+
+
+
+
+<footer class="bottom-footer"> <p>Last update: 2026/05/30</p></footer>
+
+ </body>
+
+</html>
