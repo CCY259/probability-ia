@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Symmetric Random Walk and Gambler's Ruin</title>
+  <style type="text/css">body{
+    margin:40px auto;
+    max-width:800px;
+    line-height:1.7;
+    font-family: Verdana,Arial,sans-serif;
+    font-size:16px;
+    color:#313030;
+    padding:0 10px}
+    h1,h2,h3{line-height:1.2}
+    a {
+      color:#212121;
+    }
+    .ui-tabs .ui-tabs-panel[aria-hidden="true"] {
+    display: block !important;
+    position: absolute !important;
+    left: -9999px !important;
+    }
+    .bottom-footer {
+    padding: 20px;
+    text-align: right;
+    }
+    pre {
+    background-color: #F5F5F5; 
+    padding: 10px;
+    border-radius: 6px;   
+    max-height: 450px;   
+    overflow: auto;    
+    }
+    code {
+      background-color: #F5F5F5; 
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+ 
+
+
+
+ </head>
+
+
+ <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+
+ <body>
+
+  <nav class="div-nav"> 
+  <a href="/probability-ia">Back to Previous Page</a>
+</nav>
+
+ <h1>Symmetric Random Walk and Gambler's Ruin</h1>
+
+ <h2>Symmetric Random Walk</h2>
+ <p>I saw a question in <a href="https://www.stats.ox.ac.uk/~nicholls/PartASSP/p2.pdf">this file</a>: 
+  Write a function <code>rndwlk</code>, with an argument $k$, that simulates a
+symmetric random walk, stopping when the walk reaches $k$ (or $−k$). After stopping it should return the entire walk.
+Try calling <code>plot(rndwlk(10))</code> a few times to see how it looks.</p>
+
+ <p>So I have written and plots some random walks.</p>
+
+  <div style="text-align: center;">
+  <img src="../images/rw-1.png" alt="" width=400>
+  <img src="../images/rw-2.png" alt="" width=400>
+  <img src="../images/rw-3.png" alt="" width=400>
+   <img src="../images/rw-4.png" alt="" width=400>
+</div>
+
+<h3>Code</h3>
+<pre><code>random_walk = function(n) {
+  x_0 = 0
+  vec_path = c(x_0)
+  last = 0
+  while (abs(last)!= n){
+    vec_path = c(vec_path, last+sample(c(1,-1),1))
+    last = vec_path[length(vec_path)]
+  }
+  return(vec_path)
+}
+
+path = random_walk(10)
+plot(path, type = "l", xlab = "", ylab = "") 
+grid()</code></pre>
+
+<hr>
+
+<h2>Gambler's Ruin</h2>
+<p>Since we have studied it in Example 6.3, I can modify the code above to simulate gambler's ruin. 
+  From the plots it is hard to earn money!
+</p>
+
+<div style="text-align: center;">
+  <img src="../images/gr-1.png" alt="" width=400>
+  <img src="../images/gr-2.png" alt="" width=400>
+  <img src="../images/gr-3.png" alt="" width=400>
+  <img src="../images/gr-4.png" alt="" width=400>
+</div>
+
+<h3>Code</h3>
+<pre><code># The gambler initiates the game with money a, continues until he reaches n or broke, earn 1 dollar with prob. p
+gambler = function(a,n,p) { 
+  if (a<0 || a>=n || p<=0 || p>=1) {
+    return("Wrong Parameter")
+  }
+  
+  x_0 = a
+  vec_path = c(a)
+  last = a
+  
+  while (last != 0 && last != n){
+    vec_path = c(vec_path, last+sample(c(1,-1), 1, prob=c(p, 1-p)))
+    last = vec_path[length(vec_path)]
+  }
+  return(vec_path)
+}
+
+a=300
+n=310
+p=0.492
+
+money = gambler(a,n,p)
+plot(money, type = "l", xlab = "", ylab = "", sub = sprintf("a=%d, n=%d, p=%g", a, n, p))
+grid()</code></pre>
+
+
+ 
+
+<footer class="bottom-footer"> <p>Last update: 2026/06/06</p></footer>
+
+ </body>
+
+</html>
