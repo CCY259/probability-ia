@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simulation</title>
+  <style type="text/css">body{
+    margin:40px auto;
+    max-width:800px;
+    line-height:1.7;
+    font-family: Verdana,Arial,sans-serif;
+    font-size:16px;
+    color:#313030;
+    padding:0 10px}
+    h1,h2,h3{line-height:1.2}
+    a {
+      color:#212121;
+    }
+    .ui-tabs .ui-tabs-panel[aria-hidden="true"] {
+    display: block !important;
+    position: absolute !important;
+    left: -9999px !important;
+    }
+    .bottom-footer {
+    padding: 20px;
+    text-align: right;
+    }
+    pre {
+    background-color: #F5F5F5; 
+    padding: 10px;
+    border-radius: 6px;   
+    height: 450px;   
+    overflow: auto;    
+    }
+    code {
+      background-color: #F5F5F5; 
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+ 
+
+
+
+ </head>
+
+
+ <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+</script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+
+
+ <body>
+
+  <nav class="div-nav"> 
+  <a href="/probability-ia">Back to Previous Page</a>
+</nav>
+
+ <h1>An Example of Simpson's Paradox (Chapter 6)</h1>
+
+ <p>I just wondering how to recreate the image in the note on page 25. 
+ So I go to study how to get a similar plot.</p>
+
+ I downloaded a <a href="https://www.kaggle.com/datasets/parulpandey/palmer-archipelago-antarctica-penguin-data"> dataset from Kaggle</a>
+  about penguin which is well-known for illustrating Simpson's Paradox. 
+
+  <p>The output looks nice. You can view this plot on <a href="simpson-penguin-plot.html"> the HTML page here</a>.
+  <div style="text-align: center;"></p>
+  <img src="../images/simpson-penguin.png" alt="" width=400>
+</div>
+
+<h3>References</h3>
+<ul><li><a href="https://plotly.com/r/"> Plotly's R graphing library</a></li>
+  <li><a href="https://dplyr.tidyverse.org/"> dplyr: A Grammar of Data Manipulation</a>
+</li>
+</ul>
+
+
+<h3>Code</h3>
+<pre><code>library(plotly)
+library(dplyr)
+
+df <- read.csv("penguins_size.csv")
+df = na.omit(df)
+df <- df[!(df$sex == "."), ] 
+# I see one entry is ".", so I remove it manually (I think there is a better way to do that)
+
+# Edit data
+df_plot <- df %>%
+  rename(depth = culmen_depth_mm, length = culmen_length_mm) %>%
+  # Add a new column for the pair (species, sex)
+  mutate(ss = interaction(species,sex)) %>%
+  # Find regression lines according to each type in (species, sex)
+  group_by(ss) %>%
+  arrange(length) %>%
+  mutate(depth_fitted = fitted(lm(depth ~ length))) %>%
+  ungroup() %>%
+# Find the regression line without specifying (species, sex) to illustrate Simpson's Paradox
+  mutate(depth_fitted_overall=fitted(lm(depth ~ length)))
+
+# Plot
+scatter_plot <- plot_ly(df_plot, color = ~ss, colors = "Set1") %>% 
+  add_markers(x = ~length, y = ~depth,type = "scatter", mode = "markers",
+              legendgroup = ~ss,
+              name = ~ss, # For legend
+              alpha = 0.6, # Make the color faint
+              ) %>%
+  add_lines(
+    x = ~length, y = ~depth_fitted, 
+    line = list(width = 1), 
+    legendgroup = ~ss, showlegend = FALSE        
+  ) %>%
+  add_lines(
+    x = ~length, y = ~depth_fitted_overall,
+    line = list(width = 1, color="gray"),
+    showlegend = FALSE
+  ) %>%
+  layout(
+    title = "Penguin Culmen Length and Depth",
+    xaxis = list(title = "Culmen length in mm"),
+    yaxis = list(title = "Culmen depth in mm")
+  )
+
+scatter_plot</code></pre>
+
+
+
+ 
+
+<footer class="bottom-footer"> <p>Last update: 2026/06/06</p></footer>
+
+ </body>
+
+</html>
